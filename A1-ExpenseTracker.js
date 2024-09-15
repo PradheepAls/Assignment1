@@ -1,7 +1,7 @@
 /* List of all handles to <div> tags in the HTML page */
 var homepage = document.querySelector(".homePage"); // Handle to the homepage div
 var add_Expense = document.querySelector(".addExpense"); // Handle to the add expense button/section
-var remove_Expense = document.querySelector(".removeExpense"); // Handle to the remove expense button/section
+var delete_Expense = document.querySelector(".removeExpense"); // Handle to the remove expense button/section
 var update_Expense = document.querySelector(".updateExpense"); // Handle to the update expense button/section
 var view_list = document.querySelector(".viewList"); // Handle to the view list button/section
 
@@ -9,7 +9,7 @@ var view_list = document.querySelector(".viewList"); // Handle to the view list 
 document.addEventListener("DOMContentLoaded", landing_page); // Call landing_page when the DOM is fully loaded
 homepage.addEventListener("click", landing_page); // Call landing_page when the homepage is clicked
 add_Expense.addEventListener("click", add_Expenses); // Call add_Expenses when the add expense button is clicked
-remove_Expense.addEventListener("click", delete_Expenses); // Call delete_Expenses when the remove expense button is clicked
+delete_Expense.addEventListener("click", delete_Expenses); // Call delete_Expenses when the remove expense button is clicked
 update_Expense.addEventListener("click", update_Expenses); // Call update_Expenses when the update expense button is clicked
 view_list.addEventListener("click", display_Expenses); // Call display_Expenses when the view list button is clicked
 
@@ -55,11 +55,6 @@ function landing_page(){
 
     var heading = document.createElement("h3");
     heading.innerHTML = "Home";
-    
-    /*Q1: Create a new paragraph element using Javascript function. 
-    Set the innerHTML of the paragraph to a welcome message. 
-    Style it to your satisfaction (e.g., center it using padding left, padding top, center, etc.)
-    Append it to the homepage_div*/
 
     homepage_div.innerHTML = "";
     homepage_div.append(heading); 
@@ -81,19 +76,16 @@ function add_Expenses(){
     list.style.display = "none";
     remove_Expense.style.display = "none";
     homepage_div.style.display = "none";
-    /* End of Q1 */
 
     addExpenseForm.style.paddingLeft = "0%"; 
-    /* addExpenseForm.style.paddingTop = "10%"; */
     addExpenseForm.style.height = "70%";
     
-    /*Q2: Get a handle to addExpense HTML element and create an event listener
-    that calls the target function as add_Expense_func() below*/
     var addExpenseButton = document.getElementById("add");
-    addExpenseButton.addEventListener("click", add_Expense_func);
-    /*End of Q2 */
 
-    // Resets the form fields to empty after adding Expense to list
+    /*Calling the adding expense function*/
+    addExpenseButton.addEventListener("click", add_Expense_func);
+
+    // Reseting form fields to empty after adding the Expense to list
     document.getElementById("ExpenseTitle").value = null;
     document.getElementById("ExpenseDescription").value = null;
     document.getElementById("ExpenseCategory").value = null;
@@ -101,7 +93,7 @@ function add_Expenses(){
     document.getElementById("ExpenseDate").value = null;
 }
 
-// Adds a new Expense to list
+// This function Adds a new Expense to list
 function add_Expense_func(){
     /*Get a handle to all the HTML fields on the Expense add page 
     */
@@ -111,12 +103,7 @@ function add_Expense_func(){
     var ExpenseAmount = document.querySelector(".ExpenseAmount");
     var ExpenseDate = document.querySelector(".ExpenseDate");
 
-    /*End of Q2 */
-
-    /*Q8: Perform field validation (sanity check) on the HTML page.
-          This can be coded later.
-    */   
-    /* Check if any of the fields are empty */
+    /* Validate if any of the fields are empty */
     if (ExpenseTitle.value.trim() === '' ||
     ExpenseDescription.value.trim() === '' ||
     ExpenseCategory.value.trim() === '' ||
@@ -126,21 +113,16 @@ function add_Expense_func(){
     alert("Please fill in all fields for the Expense.");
     return; // Exit the function without adding the Expense
 }
-    /*End of Q8 */
 
-    /*Q2: Create a new ListItem based on the fields (e.g., ExpenseTitle, ExpenseDescription, etc.)
-          Add it to the list_array
+    /*Create a new ListItem based on the fields. Add it to the list_array
     */
     var newListItem = new ListItem(ExpenseTitle, ExpenseDescription, ExpenseCategory, ExpenseAmount, ExpenseDate);
     list_array.push(newListItem) 
     
-    /* End of Q2 */
 
-    /*Q7: Write code to save list_array to persistent storage 
-          This can be coded later.
+    /*To save list_array to persistent storage 
     */
     localStorage.setItem("Expenses", JSON.stringify(list_array));
-    /*End of Q7 */
 
     document.getElementById("ExpenseTitle").value = "";
     document.getElementById("ExpenseDescription").value = "";
@@ -152,14 +134,9 @@ function add_Expense_func(){
 
 }
 
-/* Delete Expenses
-Hide all the unnecessary <div> of the HTML page.
-Get the ID as an input from the user, search the list_array and delete the item.
+/*Q3: Function to Delete 
 */
 function delete_Expenses(){
-    /*Q1: Code to get a handle to all the <div> elements in the HTML page.
-      Hide all the unnecessary <div> tags by setting e.g., list.style.display=none.
-    */
 
     if (list_array.length === 0) {
       alert("The list is empty. There are no Expenses to remove.");
@@ -176,23 +153,19 @@ function delete_Expenses(){
     add_Expense.style.display = "none";
     removeExpenseForm.style.display = "block";
     updateExpenseForm.style.display = "none";
-    /* End of Q1 */
+
     removeExpenseForm.style.paddingLeft = "0%";
-    removeExpenseForm.style.paddingTop = "10%"; 
     removeExpenseForm.style.height = "50%";
     
-    /*Q4: Get a handle to removeExpense HTML element and create an event listener
-    that calls the target function remove_Expense_func() below*/
     var deleteExpenseButton = document.getElementById("remove");
-    deleteExpenseButton.addEventListener("click", remove_Expense_func);  
-    /*End of Q4 */
+    deleteExpenseButton.addEventListener("click", delete_Expense_func);  
 
     // Resets the form fields to empty after adding Expense to list
     document.getElementById("ExpenseIdRemove").value = null;
 }
 
 
-function remove_Expense_func(){
+function delete_Expense_func(){
     /*Q8: Perform field validation (sanity check) on the list_array to check if it is not empty.
     */
     if (list_array.length === 0) {
@@ -332,11 +305,10 @@ function update_Expense_func(){
     list_array[indexToUpdate].ExpenseDate = ExpenseDate;
   }  
 
-  /*Q7: Write code to save list_array to persistent storage 
-        This can be coded later.
-  */
+  //Adding the Items to the local storage
   localStorage.setItem("Expenses", JSON.stringify(list_array));
-  /*End of Q7 */
+
+  //Success feedback
   alert("Expense updated successfully!");
   document.getElementById("ExpenseIdUpdate").value = null;
   document.querySelector(".newExpenseTitle").value = "";
@@ -354,9 +326,7 @@ Iterate through the list_array, add each element in the array to the Table eleme
 Finally, append the Table element to the "list_table_dom", where list_table_dom = document.getElementById("list");
 */
 function display_Expenses(){
-    /*Q1: Code to get a handle to all the <div> elements in the HTML page.
-      Hide all the unnecessary <div> tags by setting e.g., list.style.display=none.
-    */
+
   if (list_array.length === 0) {
     alert("The list is empty. There are no Expenses to display.");
     return;
@@ -372,12 +342,7 @@ function display_Expenses(){
   removeExpenseForm.style.display = "none";
   updateExpenseForm.style.display = "none";
   homepage_div.style.display = "none" ;   
-  /*End of Q1 */
 
-  /*Q3: Create a new table element and insert the first row (i.e., table ).
-    Hint: Use the insertCell function to do this.
-    You can also set the style (e.g., backgroundColor, color etc.)        
-  */
   // Create a heading element
   var heading = document.createElement("h1");
   heading.innerHTML = "List of Expenses added";
@@ -391,7 +356,7 @@ function display_Expenses(){
   var ExpenseAmount = Row.insertCell(4);
   var ExpenseDate = Row.insertCell(5);         
 
-
+  //List of expenses table headers
   Sno.innerText =  "Id";
   ExpenseTitle.innerText = "Title";
   ExpenseDescription.innerText = "Description";
@@ -399,6 +364,7 @@ function display_Expenses(){
   ExpenseAmount.innerText = "Amount";
   ExpenseDate.innerText = "Date";
 
+  //Table styles
   Sno.style.backgroundColor = "darkslategrey";
   ExpenseTitle.style.backgroundColor = "darkslategrey";
   ExpenseDescription.style.backgroundColor = "darkslategrey";
@@ -414,17 +380,11 @@ function display_Expenses(){
   ExpenseDate.style.color = "white";
 
   list_table_dom.style.height = "70%"; 
-  /*End of Q3 */
 
-  /*Q3: create a new local variable that has the list of latest Expenses (i.e., list_array)*/
+  //Create local variable
   var new_list = list_array.slice();
-  /*End of Q3 */
 
-  /*Q3: Iterate through latest_list_array and create the table.
-        To create an empty row, use the function insertRow()
-          Later, if you want to add 2 elements to this row, use insertCell(0), insertCell(1).
-          Lookup the syntax and complete the code.
-    */
+  //Insert rows based on number of rows inserted
   for (var i = 0; i < new_list.length; i++) {
     var Expense = new_list[i];
     var row = Table.insertRow(i + 1);   
@@ -435,7 +395,7 @@ function display_Expenses(){
     var ExpenseAmountCell = row.insertCell(4);
     var ExpenseDateCell = row.insertCell(5);
 
-  
+    //Assigning the values of the table into the table
     snoCell.innerText = i + 1; 
     ExpenseTitleCell.innerText = Expense.ExpenseTitle;
     ExpenseDescriptionCell.innerText = Expense.ExpenseDescription;
@@ -443,7 +403,7 @@ function display_Expenses(){
     ExpenseAmountCell.innerText = Expense.ExpenseAmount;
     ExpenseDateCell.innerText = Expense.ExpenseDate;
   }
-  /*End of Q3 */
+
 
   /*Finally, add the newly created table to the list_table_dom */
   list_table_dom.innerHTML = "";

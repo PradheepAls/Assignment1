@@ -28,14 +28,14 @@
         Give unique HTML id to each, to identify them in JS later. In the JS, add an event listener to submit button. -->
         <div id="addExpenseForm" style="display: none;">
             <p>Enter Expense details:</p>
-            <label for="ExpenseTitle">Title (Max 50 characters)</label>
+            <label for="ExpenseTitle">Title</label>
             <br>
-            <input type="text" id="ExpenseTitle" class="ExpenseTitle" style="width:50%;" maxlength="50">
+            <input type="text" id="ExpenseTitle" class="ExpenseTitle" style="width:50%;" required>
             <br>
 
-            <label for="ExpenseDescription">Description (Max 200 characters)</label>
+            <label for="ExpenseDescription">Description</label>
             <br>
-            <textarea id="ExpenseDescription" class="ExpenseDescription" style="width: 50%" maxlength="200" required></textarea>
+            <textarea id="ExpenseDescription" class="ExpenseDescription" style="width: 50%" required></textarea>
             <br>
 
             <label for="ExpenseCategory">Category</label>
@@ -52,7 +52,7 @@
             <br>
             <input type="date" id="ExpenseDate" class="ExpenseDate" style="width: 40%" required>
             <br>
-
+            <br>
             <button type="button" id = "add" style="background-color: darkslategray;color: whitesmoke;">Add Expense</button>
         </div>
 
@@ -95,7 +95,8 @@
 
                 <label for="newExpenseDate">Date</label>
                 <br>
-                <textarea id="newExpenseDate" class="newExpenseDate" style="width: 40%" required></textarea>
+                <input type="date" id="newExpenseDate" class="newExpenseDate" style="width: 40%" required>
+                <br>
                 <br>
 
                 <button type="button" id="update" style="background-color:rgb(212, 167, 17); color:black;">Update</button>

@@ -1,17 +1,15 @@
 header {
-    background-color: #eaeff178; 
-    font-family: French Script MT;
+    background-color: #c8901674; 
     font-size: 32px;
     text-align: center; 
     padding: 0.3px;
-    color: black; 
+    color: rgb(21, 17, 131); 
 }
 
 h3 {
     font-size: 24px;
     line-height: 30px;
     color: rgb(180, 211, 248); 
-    font-family: Copperplate Gothic Bold;
     transition: font-size 0.3s ease, color 0.3s ease;
 }
 h3:hover {
@@ -23,12 +21,10 @@ body, html {
     width: 100%;
     height: 100%;
     margin: 0;
-    font-family: Calibri;
     font-size:large;
     text-align: center; 
     color: rgb(117, 115, 120);
     font-weight: bold;
-    font-style: italic;
 }
 
 .landing-page {
@@ -43,7 +39,6 @@ body, html {
 .button {
     width: auto; 
     background-color: white;
-    font-family: Dreaming Outloud Pro;
     color: rgba(154, 152, 152, 0.874);
     padding: 5px 10px; 
     border: none; 
@@ -52,7 +47,7 @@ body, html {
     transition: background 0.3s ease;
     margin: 5px; 
 }
-/* Q6: Write code below to perform some basic animation (like hover) on buttons*/
+/* code below to perform some basic animation (like hover) on buttons*/
 .button:hover {
     color: black; /* Change the font color on hover */
     cursor: pointer;
@@ -81,23 +76,19 @@ div {
 
 
 #removeExpenseForm {
-    /*background-image: url(https://www.freecodecamp.org/news/content/images/2022/03/shut-down-g5ad24366d_1280.jpg); 
-    background-repeat: no-repeat;
-    background-position: 40% right;*/
     background-size: 45% auto; 
     border-left: 190px solid white; 
     border-right: 190px solid white;
 }
 
 #updateExpenseForm {
-    color: rgb(172, 45, 45);
     background-position: center center;
     background-size: 100% 100%;
     border-left: 190px solid white; 
     border-right: 190px solid white;
 }
 
-/* Q6: Write your CSS code to beautify the table (body, header, row, etc.)*/
+/* CSS code to beautify the table (body, header, row, etc.)*/
 #list {
     color: white;
     background-position: center center;
@@ -118,4 +109,3 @@ th, td {
     padding: 10px 15px;
     text-align: left;
 }
-/*End of Q6*/
