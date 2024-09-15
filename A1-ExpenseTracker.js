@@ -1,47 +1,44 @@
-/*List of all handles to <div> tags in the HTML page*/
-var homepage = document.querySelector(".homePage");
-var add_Expense = document.querySelector(".addExpense");
-var remove_Expense = document.querySelector(".removeExpense");
-var update_Expense = document.querySelector(".updateExpense");
-var view_list = document.querySelector(".viewList");
+/* List of all handles to <div> tags in the HTML page */
+var homepage = document.querySelector(".homePage"); // Handle to the homepage div
+var add_Expense = document.querySelector(".addExpense"); // Handle to the add expense button/section
+var remove_Expense = document.querySelector(".removeExpense"); // Handle to the remove expense button/section
+var update_Expense = document.querySelector(".updateExpense"); // Handle to the update expense button/section
+var view_list = document.querySelector(".viewList"); // Handle to the view list button/section
 
-/*List of all the event listeners */
-document.addEventListener("DOMContentLoaded",landing_page);
-homepage.addEventListener("click", landing_page);
-add_Expense.addEventListener("click", add_Expenses);
-remove_Expense.addEventListener("click", delete_Expenses);
-update_Expense.addEventListener("click", update_Expenses);
-view_list.addEventListener("click", display_Expenses);
+/* List of all the event listeners */
+document.addEventListener("DOMContentLoaded", landing_page); // Call landing_page when the DOM is fully loaded
+homepage.addEventListener("click", landing_page); // Call landing_page when the homepage is clicked
+add_Expense.addEventListener("click", add_Expenses); // Call add_Expenses when the add expense button is clicked
+remove_Expense.addEventListener("click", delete_Expenses); // Call delete_Expenses when the remove expense button is clicked
+update_Expense.addEventListener("click", update_Expenses); // Call update_Expenses when the update expense button is clicked
+view_list.addEventListener("click", display_Expenses); // Call display_Expenses when the view list button is clicked
 
-/*Q7: Persistent Storage: Code to store the list of Expenses in localstorage of browser
-      Right now, we start with an empty array. 
-      For this Expense, you are supposed to edit the code to fetch the saved list of Expenses and populate list_array.
-*/
-// let list_array =  []; // internal array of all Expenses in list
-// Code added in landing_page to load while DOMContentLoaded
-/*End of Q7 */
 
 /*
 Class template for accepting a new Expense with title, description etc.
 */
 class ListItem {
-    constructor(ExpenseTitle, ExpenseDescription, ExpenseCategory, ExpenseComplexity){
+    constructor(ExpenseTitle, ExpenseDescription, ExpenseCategory, ExpenseAmount, ExpenseDate){
         this.ExpenseTitle = ExpenseTitle.value;
         this.ExpenseDescription = ExpenseDescription.value;
         this.ExpenseCategory = ExpenseCategory.value;
-        this.ExpenseComplexity = ExpenseComplexity.value;
-    }
+        this.ExpenseAmount = ExpenseAmount.value;
+        this.ExpenseDate = ExpenseDate.value;
+      }
 }
 
 /*
 Landing Page
 Hide all the unnecessary <div> of the SPA Application.
 Display a Welcome Message.
+/*Q1: Function to display only the tab that is selected in the navigation bar
+Call this function from HTML (using onclick) with a different parameter depending on which nav button is pressed.
+E.g., when Add is pressed, call showTab('Add')
+Hidden property can be set using the syntax:
+document.getElementById('Add').hidden = true
 */
 function landing_page(){
-    /*Q1: Code to get a handle to all the <div> elements in the HTML page.
-      Hide all the unnecessary <div> tags by setting e.g., list.style.display=none.
-    */
+
     var addExpenseForm = document.getElementById("addExpenseForm");
     var list = document.getElementById("list");
     var removeExpenseForm = document.getElementById("removeExpenseForm");
@@ -57,9 +54,7 @@ function landing_page(){
     list_array = JSON.parse(localStorage.getItem("Expenses")) || [];
 
     var heading = document.createElement("h3");
-    heading.innerHTML = "In learning, you will teach, and in teaching, you will learn!";
-
-    /* End of Q1 */
+    heading.innerHTML = "Home";
     
     /*Q1: Create a new paragraph element using Javascript function. 
     Set the innerHTML of the paragraph to a welcome message. 
@@ -68,17 +63,15 @@ function landing_page(){
 
     homepage_div.innerHTML = "";
     homepage_div.append(heading); 
-    /* End of Q1 */
 }
 
 /* Add Expenses
-Hide all the unnecessary <div> of the HTML page.
-Get inputs from the user, create a ListItem and add it to the list_array.
+Q2:  Listener for Add button. 
+Write code to uniquely identify the addExpense in the HTML document using getElementbyID.
+Attach an event listener to it.
+Make the event listener call add() function defined above.
 */
 function add_Expenses(){
-    /*Q1: Code to get a handle to all the <div> elements in the HTML page.
-      Hide all the unnecessary <div> tags by setting e.g., list.style.display=none.
-    */
     var addExpenseForm = document.getElementById("addExpenseForm");
     var list = document.getElementById("list");
     var homepage_div = document.getElementById("homepage");
@@ -90,9 +83,9 @@ function add_Expenses(){
     homepage_div.style.display = "none";
     /* End of Q1 */
 
-    addExpenseForm.style.paddingLeft = "30%"; 
+    addExpenseForm.style.paddingLeft = "0%"; 
     /* addExpenseForm.style.paddingTop = "10%"; */
-    addExpenseForm.style.height = "50%";
+    addExpenseForm.style.height = "70%";
     
     /*Q2: Get a handle to addExpense HTML element and create an event listener
     that calls the target function as add_Expense_func() below*/
@@ -104,7 +97,8 @@ function add_Expenses(){
     document.getElementById("ExpenseTitle").value = null;
     document.getElementById("ExpenseDescription").value = null;
     document.getElementById("ExpenseCategory").value = null;
-    document.getElementById("ExpenseComplexity").value = null;
+    document.getElementById("ExpenseAmount").value = null;
+    document.getElementById("ExpenseDate").value = null;
 }
 
 // Adds a new Expense to list
@@ -114,7 +108,8 @@ function add_Expense_func(){
     var ExpenseTitle = document.querySelector(".ExpenseTitle");
     var ExpenseDescription = document.querySelector(".ExpenseDescription");
     var ExpenseCategory = document.querySelector(".ExpenseCategory");
-    var ExpenseComplexity = document.querySelector(".ExpenseComplexity");
+    var ExpenseAmount = document.querySelector(".ExpenseAmount");
+    var ExpenseDate = document.querySelector(".ExpenseDate");
 
     /*End of Q2 */
 
@@ -125,7 +120,8 @@ function add_Expense_func(){
     if (ExpenseTitle.value.trim() === '' ||
     ExpenseDescription.value.trim() === '' ||
     ExpenseCategory.value.trim() === '' ||
-    ExpenseComplexity.value.trim() === '') {
+    ExpenseAmount.value.trim() === '' ||
+    ExpenseDate.value.trim() === '') {
     
     alert("Please fill in all fields for the Expense.");
     return; // Exit the function without adding the Expense
@@ -135,7 +131,7 @@ function add_Expense_func(){
     /*Q2: Create a new ListItem based on the fields (e.g., ExpenseTitle, ExpenseDescription, etc.)
           Add it to the list_array
     */
-    var newListItem = new ListItem(ExpenseTitle, ExpenseDescription, ExpenseCategory, ExpenseComplexity);
+    var newListItem = new ListItem(ExpenseTitle, ExpenseDescription, ExpenseCategory, ExpenseAmount, ExpenseDate);
     list_array.push(newListItem) 
     
     /* End of Q2 */
@@ -149,7 +145,8 @@ function add_Expense_func(){
     document.getElementById("ExpenseTitle").value = "";
     document.getElementById("ExpenseDescription").value = "";
     document.getElementById("ExpenseCategory").value = "";
-    document.getElementById("ExpenseComplexity").value = "";
+    document.getElementById("ExpenseAmount").value = "";
+    document.getElementById("ExpenseDate").value = "";
 
     alert("Expense added successfully!");
 
@@ -180,7 +177,7 @@ function delete_Expenses(){
     removeExpenseForm.style.display = "block";
     updateExpenseForm.style.display = "none";
     /* End of Q1 */
-    removeExpenseForm.style.paddingLeft = "30%";
+    removeExpenseForm.style.paddingLeft = "0%";
     removeExpenseForm.style.paddingTop = "10%"; 
     removeExpenseForm.style.height = "50%";
     
@@ -244,9 +241,7 @@ function remove_Expense_func(){
 }
 
 /* Update Expenses
-Hide all the unnecessary <div> of the HTML page.
-Get the ID as an input from the user and validate it.
-If the ID is valid, display the fields for updating the Expense.
+Q3: Function to Update 
 */
 function update_Expenses(){
   
@@ -296,7 +291,8 @@ function checkExpenseId() {
       document.querySelector(".newExpenseTitle").value = "";
       document.querySelector(".newExpenseDescription").value = "";
       document.querySelector(".newExpenseCategory").value = "";
-      document.querySelector(".newExpenseComplexity").value = "";
+      document.querySelector(".newExpenseAmount").value = "";
+      document.querySelector(".newExpenseDate").value = "";
       var updateButton = document.getElementById("update");
       updateButton.addEventListener("click", update_Expense_func);
   } else {
@@ -316,7 +312,8 @@ function update_Expense_func(){
   var ExpenseTitle = document.querySelector(".newExpenseTitle").value;
   var ExpenseDescription = document.querySelector(".newExpenseDescription").value;
   var ExpenseCategory = document.querySelector(".newExpenseCategory").value;
-  var ExpenseComplexity = document.querySelector(".newExpenseComplexity").value; 
+  var ExpenseAmount = document.querySelector(".newExpenseAmount").value; 
+  var ExpenseDate = document.querySelector(".newExpenseDate").value; 
 
   // Update the Expense object at the specified index if fields are not empty and if value is not same as existing value
   if (ExpenseTitle.trim() !== '' && ExpenseTitle !== list_array[indexToUpdate].ExpenseTitle) {
@@ -328,8 +325,11 @@ function update_Expense_func(){
   if (ExpenseCategory.trim() !== '' && ExpenseCategory !== list_array[indexToUpdate].ExpenseCategory) {
     list_array[indexToUpdate].ExpenseCategory = ExpenseCategory;
   }
-  if (ExpenseComplexity.trim() !== '' && ExpenseComplexity !== list_array[indexToUpdate].ExpenseComplexity) {
-    list_array[indexToUpdate].ExpenseComplexity = ExpenseComplexity;
+  if (ExpenseAmount.trim() !== '' && ExpenseAmount !== list_array[indexToUpdate].ExpenseAmount) {
+    list_array[indexToUpdate].ExpenseAmount = ExpenseAmount;
+  }  
+  if (ExpenseDate.trim() !== '' && ExpenseDate !== list_array[indexToUpdate].ExpenseDate) {
+    list_array[indexToUpdate].ExpenseDate = ExpenseDate;
   }  
 
   /*Q7: Write code to save list_array to persistent storage 
@@ -342,7 +342,8 @@ function update_Expense_func(){
   document.querySelector(".newExpenseTitle").value = "";
   document.querySelector(".newExpenseDescription").value = "";
   document.querySelector(".newExpenseCategory").value = "";
-  document.querySelector(".newExpenseComplexity").value = "";
+  document.querySelector(".newExpenseAmount").value = "";
+  document.querySelector(".newExpenseDate").value = "";
   
 }
 
@@ -373,7 +374,7 @@ function display_Expenses(){
   homepage_div.style.display = "none" ;   
   /*End of Q1 */
 
-  /*Q3: Create a new table element and insert the first row (i.e., table header).
+  /*Q3: Create a new table element and insert the first row (i.e., table ).
     Hint: Use the insertCell function to do this.
     You can also set the style (e.g., backgroundColor, color etc.)        
   */
@@ -382,31 +383,36 @@ function display_Expenses(){
   heading.innerHTML = "List of Expenses added";
 
   var Table = document.createElement("table")
-  var headerRow = Table.insertRow(0);      
-  var snoHeader = headerRow.insertCell(0);
-  var ExpenseTitleHeader = headerRow.insertCell(1);
-  var ExpenseDescriptionHeader = headerRow.insertCell(2);
-  var ExpenseCategoryHeader = headerRow.insertCell(3);
-  var ExpenseComplexityHeader = headerRow.insertCell(4);         
+  var Row = Table.insertRow(0);      
+  var Sno = Row.insertCell(0);
+  var ExpenseTitle = Row.insertCell(1);
+  var ExpenseDescription = Row.insertCell(2);
+  var ExpenseCategory = Row.insertCell(3);
+  var ExpenseAmount = Row.insertCell(4);
+  var ExpenseDate = Row.insertCell(5);         
 
-  snoHeader.innerText = "Expense Id";
-  ExpenseTitleHeader.innerText = "Expense Title";
-  ExpenseDescriptionHeader.innerText = "Expense Description";
-  ExpenseCategoryHeader.innerText = "Expense Category";
-  ExpenseComplexityHeader.innerText = "Expense Complexity";
 
-  snoHeader.style.backgroundColor = "darkslategrey";
-  ExpenseTitleHeader.style.backgroundColor = "darkslategrey";
-  ExpenseDescriptionHeader.style.backgroundColor = "darkslategrey";
-  ExpenseCategoryHeader.style.backgroundColor = "darkslategrey";
-  ExpenseComplexityHeader.style.backgroundColor = "darkslategrey";
+  Sno.innerText =  "Id";
+  ExpenseTitle.innerText = "Title";
+  ExpenseDescription.innerText = "Description";
+  ExpenseCategory.innerText = "Category";
+  ExpenseAmount.innerText = "Amount";
+  ExpenseDate.innerText = "Date";
 
-  snoHeader.style.color = "white";
-  ExpenseTitleHeader.style.color = "white";
-  ExpenseDescriptionHeader.style.color = "white";
-  ExpenseCategoryHeader.style.color = "white";
-  ExpenseComplexityHeader.style.color = "white";
-    
+  Sno.style.backgroundColor = "darkslategrey";
+  ExpenseTitle.style.backgroundColor = "darkslategrey";
+  ExpenseDescription.style.backgroundColor = "darkslategrey";
+  ExpenseCategory.style.backgroundColor = "darkslategrey";
+  ExpenseAmount.style.backgroundColor = "darkslategrey";
+  ExpenseDate.style.backgroundColor = "darkslategrey";
+
+  Sno.style.color = "white";
+  ExpenseTitle.style.color = "white";
+  ExpenseDescription.style.color = "white";
+  ExpenseCategory.style.color = "white";
+  ExpenseAmount.style.color = "white";
+  ExpenseDate.style.color = "white";
+
   list_table_dom.style.height = "70%"; 
   /*End of Q3 */
 
@@ -426,13 +432,16 @@ function display_Expenses(){
     var ExpenseTitleCell = row.insertCell(1);
     var ExpenseDescriptionCell = row.insertCell(2);
     var ExpenseCategoryCell = row.insertCell(3);
-    var ExpenseComplexityCell = row.insertCell(4);
+    var ExpenseAmountCell = row.insertCell(4);
+    var ExpenseDateCell = row.insertCell(5);
+
   
     snoCell.innerText = i + 1; 
     ExpenseTitleCell.innerText = Expense.ExpenseTitle;
     ExpenseDescriptionCell.innerText = Expense.ExpenseDescription;
     ExpenseCategoryCell.innerText = Expense.ExpenseCategory;
-    ExpenseComplexityCell.innerText = Expense.ExpenseComplexity;
+    ExpenseAmountCell.innerText = Expense.ExpenseAmount;
+    ExpenseDateCell.innerText = Expense.ExpenseDate;
   }
   /*End of Q3 */
 
